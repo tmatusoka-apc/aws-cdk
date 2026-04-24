@@ -15,16 +15,19 @@ if (!config) {
 
 const env = { account: config.account, region: config.region };
 
+// VPCスタックの作成
 const vpcStack = new VpcStack(app, `VpcStack-${envKey}`, { env, cidr: config.vpcCidr });
 
+// ECSスタックの作成（ECRリポジトリ名とタグを渡す）
 new EcsStack(app, `EcsStack-${envKey}`, {
   env,
   vpc: vpcStack.vpc,
   activeColor: config.active_color,
-  blueImage: config.blue_image,
-  greenImage: config.green_image,
-  cpu: config.cpu,      // ここで config から渡す
-  memory: config.memory // ここで config から渡す
+  repositoryName: config.ecr_repository_name,
+  blueImageTag: config.blue_image_tag,
+  greenImageTag: config.green_image_tag,
+  cpu: config.cpu,
+  memory: config.memory
 });
 
 app.synth();

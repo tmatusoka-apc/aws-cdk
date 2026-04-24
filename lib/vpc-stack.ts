@@ -15,7 +15,7 @@ export class VpcStack extends cdk.Stack {
     this.vpc = new ec2.Vpc(this, 'MyVpc', {
       ipAddresses: ec2.IpAddresses.cidr(props.cidr),
       maxAzs: 2,
-      natGateways: 1,
+      natGateways: 1, // プライベートサブネットから外に出るためのゲートウェイ
       subnetConfiguration: [
         { name: 'Public', subnetType: ec2.SubnetType.PUBLIC },
         { name: 'Private', subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
