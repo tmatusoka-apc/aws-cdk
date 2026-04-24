@@ -13,18 +13,18 @@ if (!config) {
   throw new Error(`Context "${envKey}" is not defined in cdk.json`);
 }
 
-const env = { 
-  account: config.account, 
-  region: config.region 
-};
+const env = { account: config.account, region: config.region };
 
 const vpcStack = new VpcStack(app, `VpcStack-${envKey}`, { env, cidr: config.vpcCidr });
 
 new EcsStack(app, `EcsStack-${envKey}`, {
   env,
   vpc: vpcStack.vpc,
-  cpu: config.cpu,
-  memory: config.memory,
+  activeColor: config.active_color,
+  blueImage: config.blue_image,
+  greenImage: config.green_image,
+  cpu: config.cpu,      // ここで config から渡す
+  memory: config.memory // ここで config から渡す
 });
 
 app.synth();
