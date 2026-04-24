@@ -1,5 +1,5 @@
 {
-  "name": "aws-cdk-ecs",
+  "name": "aws-cdk-ecs-bg",
   "version": "1.0.0",
   "bin": {
     "aws-cdk-ecs": "bin/my-app.js"

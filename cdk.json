@@ -8,18 +8,10 @@
     "dev": {
       "account": "086997486593",
       "region": "ap-northeast-1",
-      "envName": "dev",
       "vpcCidr": "10.0.0.0/16",
-      "cpu": 256,
-      "memory": 512
-    },
-    "prod": {
-      "account": "086997486593",
-      "region": "ap-northeast-1",
-      "envName": "prod",
-      "vpcCidr": "10.1.0.0/16",
-      "cpu": 512,
-      "memory": 1024
+      "active_color": "blue",
+      "blue_image": "nginx:latest",
+      "green_image": "nginx:latest"
     }
   }
 }
