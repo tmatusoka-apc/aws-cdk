@@ -14,7 +14,7 @@ export class EcsStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props: EcsStackProps) {
     super(scope, id, props);
 
-    new ecs_patterns.NetworkLoadBalancedFargateService(this, 'MyNlbService', {
+    const loadBalancedFargateService = new ecs_patterns.NetworkLoadBalancedFargateService(this, 'MyNlbService', {
       vpc: props.vpc,
       cpu: props.cpu,
       memoryLimitMiB: props.memory,
@@ -26,6 +26,18 @@ export class EcsStack extends cdk.Stack {
       listenerPort: 8080,
       assignPublicIp: false,
       publicLoadBalancer: true,
+      // ★ 起動直後のヘルスチェック失敗を許容する時間を設定（60秒）
+      healthCheckGracePeriod: cdk.Duration.seconds(60),
+    });
+
+    // ★ セキュリティグループの設定
+    // NLBはセキュリティグループを持ちませんが、Fargateタスク側でVPC内（NLB経由）からの80番ポート通信を許可する必要があります
+    loadBalancedFargateService.service.connections.allowFromAnyIpv4(ec2.Port.tcp(80), 'Allow HTTP from everywhere');
+
+    // ターゲットグループのヘルスチェック設定を微調整
+    loadBalancedFargateService.targetGroup.configureHealthCheck({
+      enabled: true,
+      port: '80', // コンテナのポートをチェック
     });
   }
 }

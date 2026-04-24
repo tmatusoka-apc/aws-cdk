@@ -17,14 +17,8 @@ export class VpcStack extends cdk.Stack {
       maxAzs: 2,
       natGateways: 1,
       subnetConfiguration: [
-        {
-          name: 'Public',
-          subnetType: ec2.SubnetType.PUBLIC,
-        },
-        {
-          name: 'Private',
-          subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
-        },
+        { name: 'Public', subnetType: ec2.SubnetType.PUBLIC },
+        { name: 'Private', subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
       ],
     });
   }
