@@ -2,17 +2,19 @@ name: CDK Deploy
 
 on:
   push:
-    branches: [ main ] # 運用に合わせて develop ブランチなどを追加可能
+    branches: [ main ]
 
 permissions:
   id-token: write
   contents: read
 
+# ★ 全ステップで Node.js 24 を強制的に使用するように設定
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    # ★GitHubの Settings > Environments で作成した環境名を指定
-    # ここを ${{ github.ref_name == 'main' && 'prod' || 'dev' }} のように動的にすることも可能です
     environment: dev 
 
     steps:
@@ -22,19 +24,18 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24' # ★ 24 に変更（現在の最新安定版）
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci # installよりciの方が再現性が高く高速です
+        run: npm ci
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          # ★Environment 側の Secrets から取得
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: ap-northeast-1
 
       - name: CDK Deploy
-        # ★Environment 側の Variables (ENV_NAME) を利用して cdk.json の中身を切り替え
+        # vars.ENV_NAME は GitHub の Environment Variables (dev)
         run: npx cdk deploy --all -c env=${{ vars.ENV_NAME }} --require-approval never
