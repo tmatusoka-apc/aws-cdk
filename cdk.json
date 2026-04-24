@@ -10,7 +10,7 @@
       "region": "ap-northeast-1",
       "vpcCidr": "10.0.0.0/16",
       "ecr_repository_name": "myproject-web-app/repo",
-      "active_color": "blue",
+      "active_color": "green",
       "blue_image_tag": "blue",
       "green_image_tag": "green",
       "cpu": 256,
