@@ -1,0 +1,20 @@
+{
+  "version": "36.0.0",
+  "files": {
+    "67471f42e04b428823cb0d62a94118692b3f677e73f230d159ff717331826985": {
+      "source": {
+        "path": "EcsStack-dev.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "086997486593-ap-northeast-1": {
+          "bucketName": "cdk-hnb659fds-assets-086997486593-ap-northeast-1",
+          "objectKey": "67471f42e04b428823cb0d62a94118692b3f677e73f230d159ff717331826985.json",
+          "region": "ap-northeast-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::086997486593:role/cdk-hnb659fds-file-publishing-role-086997486593-ap-northeast-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

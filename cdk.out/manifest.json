@@ -1,0 +1,393 @@
+{
+  "version": "36.0.0",
+  "artifacts": {
+    "VpcStack-dev.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "VpcStack-dev.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "VpcStack-dev": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://086997486593/ap-northeast-1",
+      "properties": {
+        "templateFile": "VpcStack-dev.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::086997486593:role/cdk-hnb659fds-deploy-role-086997486593-ap-northeast-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::086997486593:role/cdk-hnb659fds-cfn-exec-role-086997486593-ap-northeast-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-086997486593-ap-northeast-1/b8d590df8de42bb3d67f87e6c585f6352073f4623aa33bb38281cad7f7e27f45.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "VpcStack-dev.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::086997486593:role/cdk-hnb659fds-lookup-role-086997486593-ap-northeast-1",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "VpcStack-dev.assets"
+      ],
+      "metadata": {
+        "/VpcStack-dev": [
+          {
+            "type": "aws:cdk:error",
+            "data": "You are not authorized to perform this operation. User: arn:aws:iam::086997486593:user/t_matsuoka@ap-com.co.jp is not authorized to perform: ec2:DescribeAvailabilityZones with an explicit deny in an identity-based policy: arn:aws:iam::086997486593:policy/IAMRequireMFA",
+            "trace": [
+              "Annotations.addMessage (C:\\Users\\t_matsuoka_ap-com\\workspace\\aws-cdk\\node_modules\\aws-cdk-lib\\core\\lib\\annotations.js:1:1608)",
+              "Annotations.addError (C:\\Users\\t_matsuoka_ap-com\\workspace\\aws-cdk\\node_modules\\aws-cdk-lib\\core\\lib\\annotations.js:1:1100)",
+              "ContextProvider.getValue (C:\\Users\\t_matsuoka_ap-com\\workspace\\aws-cdk\\node_modules\\aws-cdk-lib\\core\\lib\\context-provider.js:2:1172)",
+              "VpcStack.get availabilityZones [as availabilityZones] (C:\\Users\\t_matsuoka_ap-com\\workspace\\aws-cdk\\node_modules\\aws-cdk-lib\\core\\lib\\stack.js:1:10375)",
+              "new Vpc (C:\\Users\\t_matsuoka_ap-com\\workspace\\aws-cdk\\node_modules\\aws-cdk-lib\\aws-ec2\\lib\\vpc.js:1:12717)",
+              "new VpcStack (C:\\Users\\t_matsuoka_ap-com\\workspace\\aws-cdk\\lib\\vpc-stack.ts:15:16)",
+              "Object.<anonymous> (C:\\Users\\t_matsuoka_ap-com\\workspace\\aws-cdk\\bin\\my-app.ts:24:18)",
+              "Module._compile (node:internal/modules/cjs/loader:1830:14)",
+              "Module.m._compile (C:\\Users\\t_matsuoka_ap-com\\workspace\\aws-cdk\\node_modules\\ts-node\\src\\index.ts:1618:23)",
+              "node:internal/modules/cjs/loader:1961:10",
+              "Object.require.extensions.<computed> [as .ts] (C:\\Users\\t_matsuoka_ap-com\\workspace\\aws-cdk\\node_modules\\ts-node\\src\\index.ts:1621:12)",
+              "Module.load (node:internal/modules/cjs/loader:1553:32)",
+              "Module._load (node:internal/modules/cjs/loader:1355:12)",
+              "wrapModuleLoad (node:internal/modules/cjs/loader:255:19)",
+              "Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)",
+              "phase4 (C:\\Users\\t_matsuoka_ap-com\\workspace\\aws-cdk\\node_modules\\ts-node\\src\\bin.ts:649:14)",
+              "bootstrap (C:\\Users\\t_matsuoka_ap-com\\workspace\\aws-cdk\\node_modules\\ts-node\\src\\bin.ts:95:10)",
+              "main (C:\\Users\\t_matsuoka_ap-com\\workspace\\aws-cdk\\node_modules\\ts-node\\src\\bin.ts:55:10)",
+              "Object.<anonymous> (C:\\Users\\t_matsuoka_ap-com\\workspace\\aws-cdk\\node_modules\\ts-node\\src\\bin.ts:800:3)",
+              "Module._compile (node:internal/modules/cjs/loader:1830:14)",
+              "Object.<anonymous> (node:internal/modules/cjs/loader:1961:10)",
+              "Module.load (node:internal/modules/cjs/loader:1553:32)",
+              "Module._load (node:internal/modules/cjs/loader:1355:12)",
+              "wrapModuleLoad (node:internal/modules/cjs/loader:255:19)",
+              "Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)",
+              "node:internal/main/run_main_module:33:47"
+            ]
+          }
+        ],
+        "/VpcStack-dev/MyVpc/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyVpcF9F0CA6F"
+          }
+        ],
+        "/VpcStack-dev/MyVpc/PublicSubnet1/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyVpcPublicSubnet1SubnetF6608456"
+          }
+        ],
+        "/VpcStack-dev/MyVpc/PublicSubnet1/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyVpcPublicSubnet1RouteTableC46AB2F4"
+          }
+        ],
+        "/VpcStack-dev/MyVpc/PublicSubnet1/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyVpcPublicSubnet1RouteTableAssociation2ECEE1CB"
+          }
+        ],
+        "/VpcStack-dev/MyVpc/PublicSubnet1/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyVpcPublicSubnet1DefaultRoute95FDF9EB"
+          }
+        ],
+        "/VpcStack-dev/MyVpc/PublicSubnet1/EIP": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyVpcPublicSubnet1EIP096967CB"
+          }
+        ],
+        "/VpcStack-dev/MyVpc/PublicSubnet1/NATGateway": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyVpcPublicSubnet1NATGatewayAD3400C1"
+          }
+        ],
+        "/VpcStack-dev/MyVpc/PublicSubnet2/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyVpcPublicSubnet2Subnet492B6BFB"
+          }
+        ],
+        "/VpcStack-dev/MyVpc/PublicSubnet2/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyVpcPublicSubnet2RouteTable1DF17386"
+          }
+        ],
+        "/VpcStack-dev/MyVpc/PublicSubnet2/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyVpcPublicSubnet2RouteTableAssociation227DE78D"
+          }
+        ],
+        "/VpcStack-dev/MyVpc/PublicSubnet2/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyVpcPublicSubnet2DefaultRoute052936F6"
+          }
+        ],
+        "/VpcStack-dev/MyVpc/PrivateSubnet1/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyVpcPrivateSubnet1Subnet5057CF7E"
+          }
+        ],
+        "/VpcStack-dev/MyVpc/PrivateSubnet1/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyVpcPrivateSubnet1RouteTable8819E6E2"
+          }
+        ],
+        "/VpcStack-dev/MyVpc/PrivateSubnet1/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyVpcPrivateSubnet1RouteTableAssociation56D38C7E"
+          }
+        ],
+        "/VpcStack-dev/MyVpc/PrivateSubnet1/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyVpcPrivateSubnet1DefaultRouteA8CDE2FA"
+          }
+        ],
+        "/VpcStack-dev/MyVpc/PrivateSubnet2/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyVpcPrivateSubnet2Subnet0040C983"
+          }
+        ],
+        "/VpcStack-dev/MyVpc/PrivateSubnet2/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyVpcPrivateSubnet2RouteTableCEDCEECE"
+          }
+        ],
+        "/VpcStack-dev/MyVpc/PrivateSubnet2/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyVpcPrivateSubnet2RouteTableAssociation86A610DA"
+          }
+        ],
+        "/VpcStack-dev/MyVpc/PrivateSubnet2/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyVpcPrivateSubnet2DefaultRoute9CE96294"
+          }
+        ],
+        "/VpcStack-dev/MyVpc/IGW": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyVpcIGW5C4A4F63"
+          }
+        ],
+        "/VpcStack-dev/MyVpc/VPCGW": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyVpcVPCGW488ACE0D"
+          }
+        ],
+        "/VpcStack-dev/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/VpcStack-dev/Exports/Output{\"Ref\":\"MyVpcPublicSubnet1SubnetF6608456\"}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputRefMyVpcPublicSubnet1SubnetF6608456AB60A910"
+          }
+        ],
+        "/VpcStack-dev/Exports/Output{\"Ref\":\"MyVpcPublicSubnet2Subnet492B6BFB\"}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputRefMyVpcPublicSubnet2Subnet492B6BFBA5DEC6B5"
+          }
+        ],
+        "/VpcStack-dev/Exports/Output{\"Ref\":\"MyVpcF9F0CA6F\"}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputRefMyVpcF9F0CA6FBC8737E9"
+          }
+        ],
+        "/VpcStack-dev/Exports/Output{\"Ref\":\"MyVpcPrivateSubnet1Subnet5057CF7E\"}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputRefMyVpcPrivateSubnet1Subnet5057CF7EBB23EA1E"
+          }
+        ],
+        "/VpcStack-dev/Exports/Output{\"Ref\":\"MyVpcPrivateSubnet2Subnet0040C983\"}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputRefMyVpcPrivateSubnet2Subnet0040C983A26C73F6"
+          }
+        ],
+        "/VpcStack-dev/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/VpcStack-dev/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "VpcStack-dev"
+    },
+    "EcsStack-dev.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "EcsStack-dev.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "EcsStack-dev": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://086997486593/ap-northeast-1",
+      "properties": {
+        "templateFile": "EcsStack-dev.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::086997486593:role/cdk-hnb659fds-deploy-role-086997486593-ap-northeast-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::086997486593:role/cdk-hnb659fds-cfn-exec-role-086997486593-ap-northeast-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-086997486593-ap-northeast-1/67471f42e04b428823cb0d62a94118692b3f677e73f230d159ff717331826985.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "EcsStack-dev.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::086997486593:role/cdk-hnb659fds-lookup-role-086997486593-ap-northeast-1",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "VpcStack-dev",
+        "EcsStack-dev.assets"
+      ],
+      "metadata": {
+        "/EcsStack-dev/MyNlbService/LB/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyNlbServiceLBEE0B7394"
+          }
+        ],
+        "/EcsStack-dev/MyNlbService/LB/PublicListener/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyNlbServiceLBPublicListener6DFDB40E"
+          }
+        ],
+        "/EcsStack-dev/MyNlbService/LB/PublicListener/ECSGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyNlbServiceLBPublicListenerECSGroup34C8F0AB"
+          }
+        ],
+        "/EcsStack-dev/MyNlbService/LoadBalancerDNS": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyNlbServiceLoadBalancerDNSD20196E7"
+          }
+        ],
+        "/EcsStack-dev/MyNlbService/TaskDef/TaskRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyNlbServiceTaskDefTaskRole56052121"
+          }
+        ],
+        "/EcsStack-dev/MyNlbService/TaskDef/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyNlbServiceTaskDef5C806D3A"
+          }
+        ],
+        "/EcsStack-dev/MyNlbService/TaskDef/web/LogGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyNlbServiceTaskDefwebLogGroup59D97BE9"
+          }
+        ],
+        "/EcsStack-dev/MyNlbService/TaskDef/ExecutionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyNlbServiceTaskDefExecutionRoleB2109DD1"
+          }
+        ],
+        "/EcsStack-dev/MyNlbService/TaskDef/ExecutionRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyNlbServiceTaskDefExecutionRoleDefaultPolicyBBDEBE0F"
+          }
+        ],
+        "/EcsStack-dev/MyNlbService/Service/Service": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyNlbServiceD7EB13EB"
+          }
+        ],
+        "/EcsStack-dev/MyNlbService/Service/SecurityGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyNlbServiceSecurityGroup039FE93C"
+          }
+        ],
+        "/EcsStack-dev/EcsDefaultClusterMnL3mNNYNMyVpc/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsDefaultClusterMnL3mNNYNMyVpc92154169"
+          }
+        ],
+        "/EcsStack-dev/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/EcsStack-dev/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/EcsStack-dev/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "EcsStack-dev"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  },
+  "missing": [
+    {
+      "key": "availability-zones:account=086997486593:region=ap-northeast-1",
+      "provider": "availability-zones",
+      "props": {
+        "account": "086997486593",
+        "region": "ap-northeast-1",
+        "lookupRoleArn": "arn:${AWS::Partition}:iam::086997486593:role/cdk-hnb659fds-lookup-role-086997486593-ap-northeast-1"
+      }
+    }
+  ]
+}

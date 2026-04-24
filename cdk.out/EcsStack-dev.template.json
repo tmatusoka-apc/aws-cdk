@@ -1,0 +1,336 @@
+{
+ "Resources": {
+  "MyNlbServiceLBEE0B7394": {
+   "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+   "Properties": {
+    "LoadBalancerAttributes": [
+     {
+      "Key": "deletion_protection.enabled",
+      "Value": "false"
+     }
+    ],
+    "Scheme": "internet-facing",
+    "Subnets": [
+     {
+      "Fn::ImportValue": "VpcStack-dev:ExportsOutputRefMyVpcPublicSubnet1SubnetF6608456AB60A910"
+     },
+     {
+      "Fn::ImportValue": "VpcStack-dev:ExportsOutputRefMyVpcPublicSubnet2Subnet492B6BFBA5DEC6B5"
+     }
+    ],
+    "Type": "network"
+   },
+   "Metadata": {
+    "aws:cdk:path": "EcsStack-dev/MyNlbService/LB/Resource"
+   }
+  },
+  "MyNlbServiceLBPublicListener6DFDB40E": {
+   "Type": "AWS::ElasticLoadBalancingV2::Listener",
+   "Properties": {
+    "DefaultActions": [
+     {
+      "TargetGroupArn": {
+       "Ref": "MyNlbServiceLBPublicListenerECSGroup34C8F0AB"
+      },
+      "Type": "forward"
+     }
+    ],
+    "LoadBalancerArn": {
+     "Ref": "MyNlbServiceLBEE0B7394"
+    },
+    "Port": 8080,
+    "Protocol": "TCP"
+   },
+   "Metadata": {
+    "aws:cdk:path": "EcsStack-dev/MyNlbService/LB/PublicListener/Resource"
+   }
+  },
+  "MyNlbServiceLBPublicListenerECSGroup34C8F0AB": {
+   "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+   "Properties": {
+    "Port": 80,
+    "Protocol": "TCP",
+    "TargetType": "ip",
+    "VpcId": {
+     "Fn::ImportValue": "VpcStack-dev:ExportsOutputRefMyVpcF9F0CA6FBC8737E9"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "EcsStack-dev/MyNlbService/LB/PublicListener/ECSGroup/Resource"
+   }
+  },
+  "MyNlbServiceTaskDefTaskRole56052121": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "EcsStack-dev/MyNlbService/TaskDef/TaskRole/Resource"
+   }
+  },
+  "MyNlbServiceTaskDef5C806D3A": {
+   "Type": "AWS::ECS::TaskDefinition",
+   "Properties": {
+    "ContainerDefinitions": [
+     {
+      "Essential": true,
+      "Image": "nginx",
+      "LogConfiguration": {
+       "LogDriver": "awslogs",
+       "Options": {
+        "awslogs-group": {
+         "Ref": "MyNlbServiceTaskDefwebLogGroup59D97BE9"
+        },
+        "awslogs-stream-prefix": "MyNlbService",
+        "awslogs-region": "ap-northeast-1"
+       }
+      },
+      "Name": "web",
+      "PortMappings": [
+       {
+        "ContainerPort": 80,
+        "Protocol": "tcp"
+       }
+      ]
+     }
+    ],
+    "Cpu": "256",
+    "ExecutionRoleArn": {
+     "Fn::GetAtt": [
+      "MyNlbServiceTaskDefExecutionRoleB2109DD1",
+      "Arn"
+     ]
+    },
+    "Family": "EcsStackdevMyNlbServiceTaskDef7F2461C0",
+    "Memory": "512",
+    "NetworkMode": "awsvpc",
+    "RequiresCompatibilities": [
+     "FARGATE"
+    ],
+    "TaskRoleArn": {
+     "Fn::GetAtt": [
+      "MyNlbServiceTaskDefTaskRole56052121",
+      "Arn"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "EcsStack-dev/MyNlbService/TaskDef/Resource"
+   }
+  },
+  "MyNlbServiceTaskDefwebLogGroup59D97BE9": {
+   "Type": "AWS::Logs::LogGroup",
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "EcsStack-dev/MyNlbService/TaskDef/web/LogGroup/Resource"
+   }
+  },
+  "MyNlbServiceTaskDefExecutionRoleB2109DD1": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "EcsStack-dev/MyNlbService/TaskDef/ExecutionRole/Resource"
+   }
+  },
+  "MyNlbServiceTaskDefExecutionRoleDefaultPolicyBBDEBE0F": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "MyNlbServiceTaskDefwebLogGroup59D97BE9",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "MyNlbServiceTaskDefExecutionRoleDefaultPolicyBBDEBE0F",
+    "Roles": [
+     {
+      "Ref": "MyNlbServiceTaskDefExecutionRoleB2109DD1"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "EcsStack-dev/MyNlbService/TaskDef/ExecutionRole/DefaultPolicy/Resource"
+   }
+  },
+  "MyNlbServiceD7EB13EB": {
+   "Type": "AWS::ECS::Service",
+   "Properties": {
+    "Cluster": {
+     "Ref": "EcsDefaultClusterMnL3mNNYNMyVpc92154169"
+    },
+    "DeploymentConfiguration": {
+     "Alarms": {
+      "AlarmNames": [],
+      "Enable": false,
+      "Rollback": false
+     },
+     "MaximumPercent": 200,
+     "MinimumHealthyPercent": 50
+    },
+    "DesiredCount": 1,
+    "EnableECSManagedTags": false,
+    "HealthCheckGracePeriodSeconds": 60,
+    "LaunchType": "FARGATE",
+    "LoadBalancers": [
+     {
+      "ContainerName": "web",
+      "ContainerPort": 80,
+      "TargetGroupArn": {
+       "Ref": "MyNlbServiceLBPublicListenerECSGroup34C8F0AB"
+      }
+     }
+    ],
+    "NetworkConfiguration": {
+     "AwsvpcConfiguration": {
+      "AssignPublicIp": "DISABLED",
+      "SecurityGroups": [
+       {
+        "Fn::GetAtt": [
+         "MyNlbServiceSecurityGroup039FE93C",
+         "GroupId"
+        ]
+       }
+      ],
+      "Subnets": [
+       {
+        "Fn::ImportValue": "VpcStack-dev:ExportsOutputRefMyVpcPrivateSubnet1Subnet5057CF7EBB23EA1E"
+       },
+       {
+        "Fn::ImportValue": "VpcStack-dev:ExportsOutputRefMyVpcPrivateSubnet2Subnet0040C983A26C73F6"
+       }
+      ]
+     }
+    },
+    "TaskDefinition": {
+     "Ref": "MyNlbServiceTaskDef5C806D3A"
+    }
+   },
+   "DependsOn": [
+    "MyNlbServiceLBPublicListenerECSGroup34C8F0AB",
+    "MyNlbServiceLBPublicListener6DFDB40E",
+    "MyNlbServiceTaskDefTaskRole56052121"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "EcsStack-dev/MyNlbService/Service/Service"
+   }
+  },
+  "MyNlbServiceSecurityGroup039FE93C": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "EcsStack-dev/MyNlbService/Service/SecurityGroup",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "VpcId": {
+     "Fn::ImportValue": "VpcStack-dev:ExportsOutputRefMyVpcF9F0CA6FBC8737E9"
+    }
+   },
+   "DependsOn": [
+    "MyNlbServiceTaskDefTaskRole56052121"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "EcsStack-dev/MyNlbService/Service/SecurityGroup/Resource"
+   }
+  },
+  "EcsDefaultClusterMnL3mNNYNMyVpc92154169": {
+   "Type": "AWS::ECS::Cluster",
+   "Metadata": {
+    "aws:cdk:path": "EcsStack-dev/EcsDefaultClusterMnL3mNNYNMyVpc/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/2WPTW7CMBCFz8LeTCG0FyhV2aC2AvZocIZoiLGRZwxCVu5ehSQI2tV878fScwHT2QwmI7zI2Jb12PEO8lrR1gYvss1kZXtCVYpe4Iv0EmK9DFi+o0NvqfzEWKHSmuKZLRlyKMrWBSx3twb76lxA/v8ymvneP+mhw6Lk+3zgPttgrEgXMaRTGz/IxpAVyP2cDUr9QXv2rBx8V312gldkT/HB+/OV+d7f0SXRblGPjWE8Ql4Fdyve7k9wbK+t7KgxLlQCeRmq++KB27kF5DXZFFmv9/zJaJrW+k56SmpWJCHFbtfAjfGhJDjIy7l4hekbTEYHYR7H5JWPBKvu/gKNu2/g5AEAAA=="
+   },
+   "Metadata": {
+    "aws:cdk:path": "EcsStack-dev/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "MyNlbServiceLoadBalancerDNSD20196E7": {
+   "Value": {
+    "Fn::GetAtt": [
+     "MyNlbServiceLBEE0B7394",
+     "DNSName"
+    ]
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

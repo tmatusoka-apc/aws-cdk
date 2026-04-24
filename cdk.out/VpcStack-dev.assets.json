@@ -1,0 +1,20 @@
+{
+  "version": "36.0.0",
+  "files": {
+    "b8d590df8de42bb3d67f87e6c585f6352073f4623aa33bb38281cad7f7e27f45": {
+      "source": {
+        "path": "VpcStack-dev.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "086997486593-ap-northeast-1": {
+          "bucketName": "cdk-hnb659fds-assets-086997486593-ap-northeast-1",
+          "objectKey": "b8d590df8de42bb3d67f87e6c585f6352073f4623aa33bb38281cad7f7e27f45.json",
+          "region": "ap-northeast-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::086997486593:role/cdk-hnb659fds-file-publishing-role-086997486593-ap-northeast-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}
