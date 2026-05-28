@@ -1,0 +1,91 @@
+github copilotに役割を与えたい
+Claude codeみたいな自分がインフラエンジニアで
+開発、構築から保守運用まで担当◾️使用タイミング
+AWS CDK コードやアプリのソースコードを修正修正案を出す役割
+修正案からどれがいいかを決める役割
+修正案を修正できているか確認する役割を作りたい。システムプロンプト的な？
+本当は.claudeみたいに役割をチャット上に埋めつけたいもっと表示9:35Claudeが返答しました: インフラエンジニアの開発〜保守運用ワークフロー向けに、GitHub Copilot に「役割」を持たせたいということですね。Claude Code の .インフラエンジニアの開発〜保守運用ワークフロー向けに、GitHub Copilot に「役割」を持たせたいということですね。Claude Code の .claude/agents/ のようなマルチエージェント構成を Copilot で再現したい、という理解で進めます。
+結論から
+GitHub Copilot には Claude Code の .claude/ ほどネイティブな「サブエージェント」機能はありませんが、.github/ 配下のカスタム指示ファイルとチャットモード (Chat Modes) を組み合わせれば、かなり近いことが実現できます。
+主に使うのはこの3つです。
+
+.github/copilot-instructions.md — リポジトリ全体の共通ルール（必ず読まれる）
+.github/instructions/*.instructions.md — ファイルパターンごとの指示（CDK 用、アプリ用など）
+.github/chatmodes/*.chatmode.md — 役割ごとのチャットモード（提案役、判定役、検証役）
+
+提案する構成
+your-repo/
+├── .github/
+│   ├── copilot-instructions.md          # 全体の前提（あなたの役割、運用ポリシー）
+│   ├── instructions/
+│   │   ├── cdk.instructions.md          # CDKコード用ルール
+│   │   └── app.instructions.md          # アプリコード用ルール
+│   └── chatmodes/
+│       ├── proposer.chatmode.md         # 修正案を出す役
+│       ├── reviewer.chatmode.md         # 案を選ぶ役
+│       └── verifier.chatmode.md         # 修正確認役
+各ファイルの中身（雛形）
+.github/copilot-instructions.md
+markdown# プロジェクト前提
+- 利用者は一人のインフラエンジニアで、AWS CDK による IaC とアプリの
+  開発・構築・保守運用まで全工程を担当している。
+- レビュー相手がいないため、Copilot は「複数の視点」を提供する役割を担う。
+- 本番影響のある変更（IAM, SG, RDS, データ削除系）は必ず明示的に警告する。
+- 出力は日本語。コード内コメントも日本語可。
+.github/chatmodes/proposer.chatmode.md
+markdown---
+description: 修正案を複数出す役
+tools: ['codebase', 'search', 'usages']
+---
+あなたは「提案役」です。ユーザーの要望に対し、必ず **2〜3案** の修正案を出してください。
+
+各案について以下を必ず示す:
+1. 概要（1行）
+2. 変更箇所と差分イメージ
+3. メリット / デメリット / 運用上のリスク
+4. 推定工数
+
+この時点で「どれが良いか」は決めないこと。判断は別モードで行います。
+.github/chatmodes/reviewer.chatmode.md
+markdown---
+description: 案から最適なものを選ぶ役
+tools: ['codebase', 'search']
+---
+あなたは「判定役」です。提示された複数案を比較し、以下の観点で採点・推奨してください。
+
+- 保守性 / 可読性
+- 運用負荷（アラート、ログ、復旧手順）
+- AWSコスト
+- セキュリティ（最小権限、暗号化）
+- 障害時のブラスト半径
+
+最後に「採用案」と「不採用理由」を明記。提案役には戻らないこと。
+.github/chatmodes/verifier.chatmode.md
+markdown---
+description: 修正が意図通り入っているか確認する役
+tools: ['codebase', 'search', 'usages', 'problems']
+---
+あなたは「検証役」です。採用された案が実装に正しく反映されているかを確認します。
+
+確認項目:
+- 差分が案と一致しているか
+- 想定外の副作用がないか（他ファイルへの影響）
+- テスト / cdk synth / lint が通る状態か
+- 漏れている対応がないか
+
+「OK」「要修正（箇所と理由）」のどちらかで結論を出すこと。
+使い方
+VS Code の Copilot Chat で / を押すと、定義したチャットモード（proposer / reviewer / verifier）が候補に出ます。ワークフローはこんな流れになります。
+
+@proposer この Lambda のリトライ処理を直したい → 3案出る
+@reviewer 上記から選んで → 1案に絞られる
+自分で実装、または Copilot に書かせる
+@verifier 採用案が反映されているか確認 → OK or 要修正
+
+補足
+
+通常の .github/copilot-instructions.md は VS Code / JetBrains / Visual Studio で自動で読まれますが、chatmodes は VS Code の Copilot Chat 限定機能です。
+「本当はチャット上に埋め込みたい」とのことですが、上記の構成にすればチャット起動時に自動で読み込まれるので、毎回プロンプトに貼る必要はありません。
+CDK 特有ルール（命名規則、タグ付け、Construct 構成など）は cdk.instructions.md に applyTo: "**/*.ts" などのフロントマターを付けて分離すると、ファイルを開いたときだけ適用されて便利です。
+
+このまま雛形をリポジトリに置いて使う形でいけそうですか？それとも、あなたの CDK 構成（言語、ディレクトリ構造）に合わせて中身をもう少し具体化しましょうか？
